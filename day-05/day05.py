@@ -13,7 +13,7 @@ class Move:
         self.target = target
 
     
-    def move(self, stacks: dict[int, list[str]]) -> None:
+    def move(self, stacks: dict[int, list[str]], mover: int) -> None:
         if mover == 9000:
             self.move_9000(stacks)
         else:
@@ -37,10 +37,10 @@ def read_input() -> list[str]:
     return file.read().splitlines()
 
 
-def parse_line(line: str, stacks: dict[int, list[str]]) -> None:
+def parse_line(line: str, stacks: dict[int, list[str]], mover_model: int) -> None:
     if line.startswith('move'):
         move = parse_move(line)
-        move.move(stacks)
+        move.move(stacks, mover_model)
     else:
         stack_line = []
         for index in range(1, len(line), 4):
@@ -64,20 +64,14 @@ def parse_move(line: str) -> Move:
     return Move(int(numbers[0]), int(numbers[1]), int(numbers[2]))
 
 
-stacks = {}
-tops = ""
-for line in read_input():
-    parse_line(line, stacks)
-for key, stack in stacks.items():
-    tops += stack.pop()
-print(f'CrateMover 9000: {tops}')
+def run_crate_mover(mover_model: int) -> None:
+    stacks = {}
+    tops = ""
+    for line in read_input():
+        parse_line(line, stacks, mover_model)
+    for stack in stacks.values():
+        tops += stack.pop()
+    print(f'CrateMover {mover_model}: {tops}')
 
-mover = 9001
-
-stacks = {}
-tops = ""
-for line in read_input():
-    parse_line(line, stacks)
-for key, stack in stacks.items():
-    tops += stack.pop()
-print(f'CrateMover 9001: {tops}')
+run_crate_mover(9000)
+run_crate_mover(9001)
