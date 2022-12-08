@@ -1,5 +1,4 @@
 from functools import reduce
-from io import TextIOWrapper
 import sys
 from typing import Any
 
